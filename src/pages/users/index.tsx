@@ -1,11 +1,16 @@
-import Link from 'next/link'
-import { Box, Button, Checkbox, Flex, Heading, Icon, Spinner, Table, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue } from "@chakra-ui/react";
+import { useCallback, useState } from 'react';
+import NextLink from 'next/link'
+import { Box, Button, Checkbox, Flex, Heading, Icon, Spinner, Table, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue, Link } from "@chakra-ui/react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
-import { useQuery } from 'react-query'
+
+import { getUsers, useUsers } from '../../services/hooks/useUsers';
+import { queryClient } from '../../services/queryClient'
 
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
+import { api } from '../../services/api';
+import { GetServerSideProps } from 'next';
 
 export default function ListUsers() {
   const isWideVersion = useBreakpointValue({
@@ -13,23 +18,19 @@ export default function ListUsers() {
     lg: true
   })
 
-  const { data, isLoading, error } = useQuery('users', async() => {
-    const response = await fetch('http://localhost:3000/api/users')
-    const data = await response.json()
-    
-    return data.users.map(user => ({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      createdAt: new Date(user.createdAt).toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric'
-      })
-    }))
-  }, {
-    staleTime: 1000 * 5 // 5 seconds
-  })
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const { data, isLoading, isFetching ,error } = useUsers(currentPage)
+
+  async function handlePrefetchUser(userId: string) {
+    await queryClient.prefetchQuery(['user', userId], async () => {
+      const response = await api.get(`users/${userId}`)
+
+      return response.data
+    }, {
+      staleTime: 1000 * 60 * 10 // 10 minutes
+    })
+  }
 
   return (
     <Box>
@@ -44,9 +45,14 @@ export default function ListUsers() {
             justify='space-between'
             align='center'
           >
-            <Heading size='lg' fontWeight='normal'>Usuários</Heading>
+            <Heading size='lg' fontWeight='normal'>
+              Usuários
+              {isFetching && !isLoading && (
+                <Spinner size='sm' color='gray.500' ml='4'/>
+              )}
+            </Heading>
 
-            <Link href='/users/create'>
+            <NextLink href='/users/create'>
               <Button 
                 as='a' 
                 size='sm' 
@@ -56,7 +62,7 @@ export default function ListUsers() {
               >
                 Criar novo
               </Button>
-            </Link>
+            </NextLink>
           </Flex>
 
           { isLoading ? (
@@ -93,43 +99,49 @@ export default function ListUsers() {
                 </Tr>
               </Thead>
               <Tbody>
-                {data.map(user => (
-                  <Tr>
-                  <Td px={['4', '4', '6']}>
-                    <Checkbox colorScheme='pink' />
-                  </Td>
-                  <Td>
-                    <Box>
-                      <Text fontWeight='bold'>{user.name}</Text>
-                      <Text fontSize='small' color='gray.300'>{user.email}</Text>
-                    </Box>
-                  </Td>
-                  {isWideVersion && (
-                    <Td>
-                    <Text>
-                      {user.createdAt}
-                    </Text>
+                {data.users.map(user => (
+                  <Tr key={user.id}>
+                    <Td px={['4', '4', '6']}>
+                      <Checkbox colorScheme='pink' />
                     </Td>
-                  )}
-                  {isWideVersion && (
                     <Td>
-                      <Button 
-                        as='a' 
-                        size='sm' 
-                        fontSize='sm' 
-                        colorScheme='pink'
-                        variant={isWideVersion ? 'link' : 'solid'}
-                        leftIcon={<Icon as={RiPencilLine} />}
-                      >
-                        Editar
-                      </Button>
+                      <Box>
+                        <Link color='purple.400' onMouseEnter={() => handlePrefetchUser(user.id)}>
+                          <Text fontWeight='bold'>{user.name}</Text>
+                        </Link>
+                        <Text fontSize='small' color='gray.300'>{user.email}</Text>
+                      </Box>
                     </Td>
-                  )}
+                    {isWideVersion && (
+                      <Td>
+                      <Text>
+                        {user.createdAt}
+                      </Text>
+                      </Td>
+                    )}
+                    {isWideVersion && (
+                      <Td>
+                        <Button 
+                          as='a' 
+                          size='sm' 
+                          fontSize='sm' 
+                          colorScheme='pink'
+                          variant={isWideVersion ? 'link' : 'solid'}
+                          leftIcon={<Icon as={RiPencilLine} />}
+                        >
+                          Editar
+                        </Button>
+                      </Td>
+                    )}
                 </Tr>
                 ))}
               </Tbody>
             </Table>
-            <Pagination />
+            <Pagination 
+              totalCountOfRegisters={data.totalCount} 
+              currentPage={currentPage} 
+              onPageChange={setCurrentPage} 
+            />
           </>
           )}
         </Box>
