@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link'
 import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, VStack } from "@chakra-ui/react";
@@ -12,11 +12,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
 
 import { Input } from "../../components/Form/Input";
-import { Header } from "../../components/Header";
-import { Sidebar } from "../../components/Sidebar";
 
 import { api } from '../../services/api';
 import { queryClient } from '../../services/queryClient';
+import { Card } from '../../components/Card';
 
 type CreateUserFormData = {
   name: string;
@@ -63,66 +62,60 @@ export default function CreateUser() {
   }, [createUser.mutateAsync])
 
   return (
-    <Box>
-      <Header/>
+    <Card>
+      <Box as='form' onSubmit={handleSubmit(handleCreateUser)}>
+        <Heading size='lg' fontWeight='normal' >Criar usuário</Heading>
 
-      <Flex w='100%' my='6' maxWidth={1480} mx='auto' px='6' >
-        <Sidebar />
+        <Divider my='6' borderColor='gray.700' />
 
-        <Box as='form' onSubmit={handleSubmit(handleCreateUser)} flex='1' borderRadius={8} bg='gray.800' p={['6', '8']}>
-          <Heading size='lg' fontWeight='normal' >Criar usuário</Heading>
+        <VStack spacing='8'>
+          <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%' >
+            <Input 
+              name='name'
+              label='Nome completo'
+              error={errors.name}
+              {...register('name')}
+            />
 
-          <Divider my='6' borderColor='gray.700' />
+            <Input 
+              name='email'
+              label='E-mail'
+              error={errors.email}
+              {...register('email')}
+            />
+          </SimpleGrid>
 
-          <VStack spacing='8'>
-            <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%' >
-              <Input 
-                name='name'
-                label='Nome completo'
-                error={errors.name}
-                {...register('name')}
-              />
+          <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%' >
+            <Input 
+              name='password'
+              label='Senha'
+              type='password'
+              error={errors.password}
+              {...register('password')}
+            />
 
-              <Input 
-                name='email'
-                label='E-mail'
-                error={errors.email}
-                {...register('email')}
-              />
-            </SimpleGrid>
+            <Input 
+              name='password_confirmation'
+              label='Confirmar senha'
+              type='password'
+              error={errors.password_confirmation}
+              {...register('password_confirmation')}
+            />
+          </SimpleGrid>
+        </VStack>
 
-            <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%' >
-              <Input 
-                name='password'
-                label='Senha'
-                type='password'
-                error={errors.password}
-                {...register('password')}
-              />
-
-              <Input 
-                name='password_confirmation'
-                label='Confirmar senha'
-                type='password'
-                error={errors.password_confirmation}
-                {...register('password_confirmation')}
-              />
-            </SimpleGrid>
-          </VStack>
-
-          <Flex
-            mt='8'
-            justify='flex-end'
-          >
-            <HStack spacing='4'>
-              <Link href='/users'>
-                <Button as='a' colorScheme='whiteAlpha'>Cancelar</Button>
-              </Link>
-              <Button type='submit' colorScheme='pink' isLoading={isSubmitting} disabled={isSubmitting}>Salvar</Button>
-            </HStack>
-          </Flex>
-        </Box>
-      </Flex>
-    </Box>
+        <Flex
+          mt='8'
+          justify='flex-end'
+        >
+          <HStack spacing='4'>
+            <Link href='/users'>
+              <Button as='a' colorScheme='whiteAlpha'>Cancelar</Button>
+            </Link>
+            <Button type='submit' colorScheme='pink' isLoading={isSubmitting} disabled={isSubmitting}>Salvar</Button>
+          </HStack>
+        </Flex>
+      </Box>
+    </Card>
   )
 }

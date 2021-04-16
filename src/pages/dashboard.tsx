@@ -1,4 +1,6 @@
-import { Flex, SimpleGrid, Box, Text, theme } from "@chakra-ui/react";
+import React from "react";
+
+import { Flex, SimpleGrid, Box, Text, theme, Button } from "@chakra-ui/react";
 
 import dynamic from 'next/dynamic'
 
@@ -9,6 +11,8 @@ const Chart = dynamic(() => import('react-apexcharts'), {
 import { Header } from "../components/Header";
 
 import { Sidebar } from "../components/Sidebar";
+
+import { Card } from '../components/Card'
 
 const options = {
   chart: {
@@ -64,33 +68,203 @@ const series = [
 
 export default function Dashboard() {
   return (
-    <Flex direction='column' h='100vh'>
-      <Header />
-
-      <Flex w='100%' my='6' maxWidth={1480} mx='auto' px='6' >
-        <Sidebar />
-
-        <SimpleGrid flex='1' gap='4' minChildWidth='320px' align='flex-start'>
-          <Box
-            p={['6', '8']}
-            bg='gray.800'
-            borderRadius={8}
-            pb={['3', '4']}
+    <SimpleGrid flex='1' gap='6' minChildWidth='480px' align='flex-start'>
+      <Card
+        title='Content with title'
+        titleSize='md'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        titleSize='md'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Loading - Skeleton'
+        titleSize='md'
+        isLoading
+        loadingIndicator='skeleton'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Loading - Spinner'
+        titleSize='md'
+        isLoading
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Refreshing'
+        titleSize='md'
+        isRefreshing
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='With button'
+        titleSize='md'
+        extra={(
+          <Button 
+            as='a' 
+            size='sm' 
+            fontSize='sm' 
+            colorScheme='pink'
           >
-            <Text fontSize='lg' mb='4'>Inscritos da semana</Text>
-            <Chart type='area' height={160} options={options} series={series} />
-          </Box>
-          <Box
-            p={['6', '8']}
-            bg='gray.800'
-            borderRadius={8}
-            pb={['3', '4']}
+            Criar novo
+          </Button>
+        )}
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Content with title'
+        titleSize='md'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        titleSize='md'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Loading - Skeleton'
+        titleSize='md'
+        isLoading
+        loadingIndicator='skeleton'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Loading - Spinner'
+        titleSize='md'
+        isLoading
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Refreshing'
+        titleSize='md'
+        isRefreshing
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='With button'
+        titleSize='md'
+        extra={(
+          <Button 
+            as='a' 
+            size='sm' 
+            fontSize='sm' 
+            colorScheme='pink'
           >
-            <Text fontSize='lg' mb='4'>Taxa de abertura</Text>
-            <Chart type='area' height={160} options={options} series={series} />
-          </Box>
-        </SimpleGrid>
-      </Flex>
-    </Flex>
+            Criar novo
+          </Button>
+        )}
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Content with title'
+        titleSize='md'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        titleSize='md'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Loading - Skeleton'
+        titleSize='md'
+        isLoading
+        loadingIndicator='skeleton'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Loading - Spinner'
+        titleSize='md'
+        isLoading
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Refreshing'
+        titleSize='md'
+        isRefreshing
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='With button'
+        titleSize='md'
+        extra={(
+          <Button 
+            as='a' 
+            size='sm' 
+            fontSize='sm' 
+            colorScheme='pink'
+          >
+            Criar novo
+          </Button>
+        )}
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Content with title'
+        titleSize='md'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        titleSize='md'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Loading - Skeleton'
+        titleSize='md'
+        isLoading
+        loadingIndicator='skeleton'
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Loading - Spinner'
+        titleSize='md'
+        isLoading
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='Refreshing'
+        titleSize='md'
+        isRefreshing
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+      <Card
+        title='With button'
+        titleSize='md'
+        extra={(
+          <Button 
+            as='a' 
+            size='sm' 
+            fontSize='sm' 
+            colorScheme='pink'
+          >
+            Criar novo
+          </Button>
+        )}
+      >
+        <Chart type='area' height={160} options={options} series={series} />
+      </Card>
+    </SimpleGrid>
   )
 }

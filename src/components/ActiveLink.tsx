@@ -24,7 +24,7 @@ export function ActiveLink({
     else {
       setIsActive(asPath.startsWith(rest.href.toString())  || asPath === rest.as)
     }
-  }, [rest.href, shouldMatchExactHref])
+  }, [asPath, rest.as, rest.href, shouldMatchExactHref])
 
   return (
     <Link {...rest}>

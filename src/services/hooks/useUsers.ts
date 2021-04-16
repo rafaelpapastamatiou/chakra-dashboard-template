@@ -14,10 +14,11 @@ type GetUsersResponse = {
   users: User[];
 }
 
-export async function getUsers(page: number): Promise<GetUsersResponse> {
+export async function getUsers(page: number, per_page: number = 10): Promise<GetUsersResponse> {
   const { data, headers } = await api.get<User[]>('/users', {
     params: {
-      page
+      page,
+      per_page
     }
   })
 
@@ -40,8 +41,8 @@ export async function getUsers(page: number): Promise<GetUsersResponse> {
   }
 }
 
-export function useUsers(page: number) {
-  return useQuery(['users', page], () => getUsers(page) , {
+export function useUsers(page: number, per_page: number = 10) {
+  return useQuery(['users', page], () => getUsers(page, per_page) , {
     staleTime: 1000 * 60 * 10 // 10 minutes
   })
 }
