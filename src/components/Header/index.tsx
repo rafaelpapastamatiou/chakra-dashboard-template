@@ -1,41 +1,41 @@
-import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react'
-import { RiMenuLine } from 'react-icons/ri'
-import { useSidebarDrawer } from '../../contexts/SidebarDrawerContext'
+import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react';
+import { RiMenuLine } from 'react-icons/ri';
+import { useSidebarDrawer } from '../../contexts/SidebarDrawerContext';
 
-import { Logo } from './Logo'
-import { NotificationsNav } from './NotificationsNav'
-import { Profile } from './Profile'
+import { Logo } from './Logo';
+import { NotificationsNav } from './NotificationsNav';
+import { Profile } from './Profile';
 // import { SearchBox } from './SearchBox'
 
-export function Header() {
-  const { onOpen } = useSidebarDrawer()
+export function Header(): JSX.Element {
+  const { onOpen } = useSidebarDrawer();
 
   const isWideVersion = useBreakpointValue({
     base: false,
-    lg: true,
-  })
+    xl: true,
+  });
 
   return (
-    <Flex 
-      w='100%' 
-      maxW={1920} 
-      as='header' 
-      h='20' 
-      mx='auto' 
-      align='center' 
-      px='6'
-      position='fixed'
-      bg='gray.900'
-      zIndex='999'
+    <Flex
+      w="100%"
+      maxW={1920}
+      as="header"
+      h="20"
+      mx="auto"
+      align="center"
+      px="6"
+      position="fixed"
+      bg="gray.900"
+      zIndex="999"
     >
       {!isWideVersion && (
-        <IconButton 
-          icon={<Icon as={RiMenuLine} />} 
-          fontSize='24' 
-          variant='unstyled' 
-          onClick={onOpen} 
-          aria-label='Open navigation'
-          mr='2'
+        <IconButton
+          icon={<Icon as={RiMenuLine} />}
+          fontSize="24"
+          variant="unstyled"
+          onClick={onOpen}
+          aria-label="Open navigation"
+          mr="2"
         />
       )}
 
@@ -43,13 +43,10 @@ export function Header() {
 
       {/* {isWideVersion && <SearchBox />} */}
 
-      <Flex
-        align='center'
-        ml='auto'
-      >
-        <NotificationsNav/>
-        <Profile  showProfileInfo={isWideVersion}/>
+      <Flex align="center" ml="auto">
+        <NotificationsNav />
+        <Profile showProfileInfo={isWideVersion} />
       </Flex>
     </Flex>
-  )
+  );
 }

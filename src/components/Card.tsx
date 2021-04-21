@@ -1,17 +1,18 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react';
 
-import { 
-  Box, 
-  Divider, 
+import {
+  Box,
+  Divider,
   Spinner,
   Heading,
   SkeletonText,
   SkeletonTextProps,
-  Flex
-} from "@chakra-ui/react";
+  Flex,
+  FlexProps,
+} from '@chakra-ui/react';
 
-interface CardProps {
-  title?: 'string' | ReactNode;
+interface CardProps extends FlexProps {
+  cardTitle?: 'string' | ReactNode;
   children: ReactNode;
   titleSize?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
@@ -27,10 +28,10 @@ const defaultSkeleton: SkeletonTextProps = {
   startColor: 'gray.500',
   endColor: 'gray.700',
   spacing: '5',
-}
+};
 
 export function Card({
-  title,
+  cardTitle,
   children,
   titleSize = 'md',
   isLoading = false,
@@ -38,64 +39,70 @@ export function Card({
   skeleton = defaultSkeleton,
   extra,
   loadingIndicator = 'spinner',
-  fixChartBottomPadding = false
-}: CardProps) {
+  fixChartBottomPadding = false,
+  ...rest
+}: CardProps): JSX.Element {
   return (
     <Flex
-      p={['6', '8']}
-      {...(fixChartBottomPadding 
-        ? {
-          pb: ['4', '6']
-        } 
-        : {})}
-      bg='gray.800'
-      borderRadius={8}
-      boxShadow='md'
-      direction='column'
-      flex='1'
+      bg="gray.800"
+      borderRadius="8"
+      boxShadow="md"
+      direction="column"
+      flex="1"
+      {...rest}
     >
-      {title && (
+      {cardTitle && (
         <>
-          <Flex direction='row' align='center'>
-            <Heading size={titleSize} fontWeight='normal'>
-              {title}
-              {isRefreshing && (
-                <Spinner size='sm' color='gray.500' ml='4'/>
-              )}
+          <Flex
+            direction="row"
+            align="center"
+            px={['4', '6']}
+            py={['2', '4']}
+            h={65}
+          >
+            <Heading size={titleSize} fontWeight="normal">
+              {cardTitle}
+              {isRefreshing && <Spinner size="sm" color="pink.500" ml="4" />}
             </Heading>
             {extra && (
-              <Box ml='auto'>
+              <Flex ml="auto" align="center" h={65}>
                 {extra}
-              </Box>
+              </Flex>
             )}
           </Flex>
-          <Divider 
-            borderColor='gray.600' 
-            mb={['4', '6']} 
-            mt={['4', '6']} 
-          />
+          <Divider borderColor="gray.900" borderBottomWidth={3} />
         </>
       )}
-      <Flex flex='1' direction='column' justify='center'>
-        {isLoading 
-        ? loadingIndicator === 'spinner'
-        ? (
-          <Flex justify='center' align='center' flex='1'>
-            <Spinner size='xl' color='gray.500'/>
-          </Flex>
-        )
-        : (
-          <Box>
-            <SkeletonText 
-              noOfLines={skeleton.noOfLines}
-              startColor={skeleton.startColor}
-              endColor={skeleton.endColor}
-              spacing={skeleton.spacing} 
-            />
-          </Box>
-        )
-         : children}
+      <Flex
+        flex="1"
+        direction="column"
+        justify="center"
+        p={['6', '8']}
+        {...(fixChartBottomPadding
+          ? {
+              pb: ['4', '6'],
+            }
+          : {})}
+      >
+        {isLoading ? (
+          loadingIndicator === 'spinner' ? (
+            <Flex justify="center" align="center" flex="1">
+              <Spinner size="xl" color="pink.500" />
+            </Flex>
+          ) : (
+            <Box>
+              <SkeletonText
+                noOfLines={skeleton.noOfLines}
+                startColor={skeleton.startColor}
+                endColor={skeleton.endColor}
+                spacing={skeleton.spacing}
+              />
+            </Box>
+          )
+        ) : (
+          children
+        )}
       </Flex>
     </Flex>
-  )
+  );
 }

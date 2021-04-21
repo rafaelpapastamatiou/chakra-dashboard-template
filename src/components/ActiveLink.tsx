@@ -1,7 +1,7 @@
-import { cloneElement, ReactElement, useEffect, useState } from "react";
+import { cloneElement, ReactElement, useEffect, useState } from 'react';
 
-import Link, { LinkProps } from "next/link";
-import { useRouter } from "next/router";
+import Link, { LinkProps } from 'next/link';
+import { useRouter } from 'next/router';
 
 interface ActiveLinkProps extends LinkProps {
   children: ReactElement;
@@ -12,25 +12,26 @@ export function ActiveLink({
   children,
   shouldMatchExactHref = false,
   ...rest
-}: ActiveLinkProps) {
-  const { asPath } = useRouter()
+}: ActiveLinkProps): JSX.Element {
+  const { asPath } = useRouter();
 
-  const [isActive, setIsActive] = useState(false)
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    if(shouldMatchExactHref){
-      setIsActive(asPath === rest.href || asPath === rest.as)
+    if (shouldMatchExactHref) {
+      setIsActive(asPath === rest.href || asPath === rest.as);
+    } else {
+      setIsActive(
+        asPath.startsWith(rest.href.toString()) || asPath === rest.as,
+      );
     }
-    else {
-      setIsActive(asPath.startsWith(rest.href.toString())  || asPath === rest.as)
-    }
-  }, [asPath, rest.as, rest.href, shouldMatchExactHref])
+  }, [asPath, rest.as, rest.href, shouldMatchExactHref]);
 
   return (
     <Link {...rest}>
       {cloneElement(children, {
-        color: isActive ? 'pink.400' : 'gray.50'
+        color: isActive ? 'pink.400' : 'gray.50',
       })}
     </Link>
-  )
+  );
 }

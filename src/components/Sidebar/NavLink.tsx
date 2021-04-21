@@ -1,7 +1,6 @@
-import { ElementType } from "react";
-import { Link as ChakraLink, Icon, Text, LinkProps } from "@chakra-ui/react";
+import { ElementType } from 'react';
+import { Link as ChakraLink, Icon, Text, LinkProps } from '@chakra-ui/react';
 import { ActiveLink } from '../ActiveLink';
-
 
 interface NavLinkProps extends LinkProps {
   icon?: ElementType;
@@ -16,23 +15,17 @@ export function NavLink({
   href,
   shouldMatchExactHref = false,
   ...rest
-}: NavLinkProps) {
+}: NavLinkProps): JSX.Element {
   return (
-    <ActiveLink href={href} passHref shouldMatchExactHref={shouldMatchExactHref}>
-      <ChakraLink display='flex' align='center' {...rest}>
-        {!!icon && (
-          <Icon 
-            as={icon} 
-            fontSize='20'
-            mr='4'
-          />
-        )}
-        <Text 
-          fontWeight='medium'
-        >
-          {children}
-        </Text>
+    <ActiveLink
+      href={href}
+      passHref
+      shouldMatchExactHref={shouldMatchExactHref}
+    >
+      <ChakraLink display="flex" align="center" {...rest}>
+        {!!icon && <Icon as={icon} fontSize="20" mr="4" />}
+        <Text fontWeight="medium">{children}</Text>
       </ChakraLink>
     </ActiveLink>
-  )
+  );
 }
