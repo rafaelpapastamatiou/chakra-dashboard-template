@@ -9,6 +9,7 @@ import {
   SkeletonTextProps,
   Flex,
   FlexProps,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 interface CardProps extends FlexProps {
@@ -42,9 +43,12 @@ export function Card({
   fixChartBottomPadding = false,
   ...rest
 }: CardProps): JSX.Element {
+  const cardBackgroundColor = useColorModeValue('gray.100', 'gray.800');
+  const dividerColor = useColorModeValue('gray.300', 'gray.900');
+  const titleColor = useColorModeValue('gray.800', 'gray.50');
   return (
     <Flex
-      bg="gray.800"
+      bg={cardBackgroundColor}
       borderRadius="8"
       boxShadow="md"
       direction="column"
@@ -60,7 +64,7 @@ export function Card({
             py={['2', '4']}
             h={65}
           >
-            <Heading size={titleSize} fontWeight="normal">
+            <Heading size={titleSize} fontWeight="normal" color={titleColor}>
               {cardTitle}
               {isRefreshing && <Spinner size="sm" color="pink.500" ml="4" />}
             </Heading>
@@ -70,7 +74,7 @@ export function Card({
               </Flex>
             )}
           </Flex>
-          <Divider borderColor="gray.900" borderBottomWidth={3} />
+          <Divider borderColor={dividerColor} borderBottomWidth={3} />
         </>
       )}
       <Flex

@@ -8,10 +8,10 @@ import {
   Thead,
   Tr,
   Table as ChakraTable,
-  chakra,
   useBreakpointValue,
   VStack,
   Flex,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import { useTable, Column, useSortBy } from 'react-table';
@@ -99,7 +99,7 @@ export function Table({
 
       return true;
     });
-  }, [columnsRaw, currentBreakpoint, hideColumnsOnBreak]);
+  }, [columnsRaw, currentBreakpoint, hideColumnsOnBreak, xsColumns]);
 
   const {
     getTableProps,
@@ -114,6 +114,12 @@ export function Table({
     },
     useSortBy,
   );
+
+  const checkboxTHeadColor = useColorModeValue('gray.600', 'gray.300');
+  const trStripedBackgroundColor = useColorModeValue('gray.200', 'gray.750');
+  const listItemBackgroundColor = useColorModeValue('gray.250', 'gray.750');
+  const headerColor = useColorModeValue('gray.600', 'gray.500');
+  const columnTextColor = useColorModeValue('gray.800', 'gray.300');
 
   return (
     <Box>
@@ -130,14 +136,13 @@ export function Table({
               {headerGroups.map(headerGroup => (
                 <Tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                   {currentBreakpoint > 2 && rowSelection && (
-                    <Th py="4" color="gray.300" width="8">
+                    <Th py="4" color={checkboxTHeadColor} width="8">
                       <Checkbox colorScheme="pink" />
                     </Th>
                   )}
                   {headerGroup.headers.map(column => (
-                    <Th key={column.id}>
+                    <Th key={column.id} color={headerColor}>
                       {column.render('Header')}
-                      <chakra.span pl="4"></chakra.span>
                     </Th>
                   ))}
                 </Tr>
@@ -150,7 +155,9 @@ export function Table({
                   <Tr
                     key={row.id}
                     {...row.getRowProps()}
-                    {...(rowIndex % 2 === 0 ? { bg: 'gray.750' } : {})}
+                    {...(rowIndex % 2 === 0
+                      ? { bg: trStripedBackgroundColor }
+                      : {})}
                   >
                     {currentBreakpoint > 2 && rowSelection && (
                       <Td textAlign="center">
@@ -158,7 +165,11 @@ export function Table({
                       </Td>
                     )}
                     {row.cells.map(cell => (
-                      <Td key={cell.column.id} {...cell.getCellProps()}>
+                      <Td
+                        key={cell.column.id}
+                        {...cell.getCellProps()}
+                        color={columnTextColor}
+                      >
                         {cell.render('Cell')}
                       </Td>
                     ))}
@@ -177,8 +188,8 @@ export function Table({
                 w="full"
                 px={['4', '8']}
                 py={['3', '6']}
-                bg="gray.750"
-                shadow="md"
+                bg={listItemBackgroundColor}
+                shadow="lg"
                 direction="column"
                 minW={250}
                 borderRadius="8"
@@ -190,6 +201,7 @@ export function Table({
                     justify="center"
                     key={cell.column.id}
                     {...cell.getCellProps()}
+                    color={columnTextColor}
                   >
                     {cell.render('Cell')}
                   </Flex>

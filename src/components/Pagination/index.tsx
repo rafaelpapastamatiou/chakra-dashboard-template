@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Box, Stack, Text } from '@chakra-ui/react';
+import { Box, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import PaginationItem from './PaginationItem';
 
 interface PaginationProps {
@@ -40,6 +40,9 @@ export function Pagination({
         )
       : [];
 
+  const pagesInfoColor = useColorModeValue('gray.450', 'gray.300');
+  const pagesEllipsisColor = useColorModeValue('gray.450', 'gray.300');
+
   return (
     <Stack
       direction={['column', 'row']}
@@ -48,7 +51,7 @@ export function Pagination({
       align="center"
       spacing="6"
     >
-      <Box>
+      <Box color={pagesInfoColor}>
         <strong>0</strong> - <strong>10</strong> de <strong>100</strong>
       </Box>
 
@@ -91,7 +94,7 @@ export function Pagination({
         {currentPage + siblingsCount < lastPage && (
           <>
             {currentPage + 1 + siblingsCount < lastPage && (
-              <Text color="gray.300" w="8" textAlign="center">
+              <Text color={pagesEllipsisColor} w="8" textAlign="center">
                 ...
               </Text>
             )}

@@ -1,6 +1,15 @@
 import React, { useMemo, useState } from 'react';
 import NextLink from 'next/link';
-import { Button, Flex, Icon, Spinner, Text, Link } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Icon,
+  Spinner,
+  Text,
+  Link,
+  useBreakpointValue,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { RiAddLine, RiDeleteBin7Line, RiPencilLine } from 'react-icons/ri';
 import { Column } from 'react-table';
 
@@ -17,6 +26,11 @@ export default function ListUsers(): JSX.Element {
 
   const { data, isLoading, isFetching, error } = useUsers(currentPage, 10);
 
+  const showButtonsText = useBreakpointValue({
+    base: false,
+    sm: true,
+  });
+
   async function handlePrefetchUser(userId: string): Promise<void> {
     await queryClient.prefetchQuery(
       ['user', userId],
@@ -30,6 +44,8 @@ export default function ListUsers(): JSX.Element {
       },
     );
   }
+
+  const dividerColor = useColorModeValue('gray.400', 'gray.500');
 
   const columns = useMemo<Column<User>[]>(
     () => [
@@ -67,10 +83,11 @@ export default function ListUsers(): JSX.Element {
                 colorScheme="purple"
                 variant={'solid'}
                 leftIcon={<Icon fontSize="lg" as={RiPencilLine} />}
+                {...(showButtonsText ? {} : { iconSpacing: '0' })}
               >
-                Editar
+                {showButtonsText && 'Editar'}
               </Button>
-              <VDivider height={6} />
+              <VDivider height={6} borderColor={dividerColor} />
               <Button
                 as="a"
                 size="sm"
@@ -78,15 +95,16 @@ export default function ListUsers(): JSX.Element {
                 colorScheme="red"
                 variant={'solid'}
                 leftIcon={<Icon fontSize="lg" as={RiDeleteBin7Line} />}
+                {...(showButtonsText ? {} : { iconSpacing: '0' })}
               >
-                Excluir
+                {showButtonsText && 'Excluir'}
               </Button>
             </Flex>
           );
         },
       },
     ],
-    [],
+    [showButtonsText],
   );
 
   return (
