@@ -42,7 +42,7 @@ export function Card({
   ...rest
 }: CardProps): JSX.Element {
   const cardBackgroundColor = useColorModeValue('gray.100', 'gray.800');
-  const dividerColor = useColorModeValue('gray.300', 'gray.900');
+  const dividerColor = useColorModeValue('gray.200', 'gray.900');
   const titleColor = useColorModeValue('gray.600', 'gray.50');
   const skeletonStartColor = useColorModeValue('gray.200', 'gray.500');
   const skeletonEndColor = useColorModeValue('gray.400', 'gray.700');
