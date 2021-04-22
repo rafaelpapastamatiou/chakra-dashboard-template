@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Box, Stack, Text } from '@chakra-ui/react';
+import { Box, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 
 interface NavSectionProps {
   title: string;
@@ -7,9 +7,10 @@ interface NavSectionProps {
 }
 
 export function NavSection({ title, children }: NavSectionProps): JSX.Element {
+  const sectionColor = useColorModeValue('gray.500', 'gray.500');
   return (
     <Box>
-      <Text fontWeight="bold" color="gray.400" fontSize="small">
+      <Text fontWeight="bold" color={sectionColor} fontSize="small">
         {title}
       </Text>
 

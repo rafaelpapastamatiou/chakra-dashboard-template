@@ -1,4 +1,10 @@
-import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Flex,
+  Icon,
+  IconButton,
+  useBreakpointValue,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { RiMenuLine } from 'react-icons/ri';
 import { useSidebarDrawer } from '../../contexts/SidebarDrawerContext';
 
@@ -15,6 +21,10 @@ export function Header(): JSX.Element {
     xl: true,
   });
 
+  const bg = useColorModeValue('gray.200', 'gray.900');
+
+  const navigationButtonColor = useColorModeValue('gray.500', 'gray.250');
+
   return (
     <Flex
       w="100%"
@@ -25,7 +35,7 @@ export function Header(): JSX.Element {
       align="center"
       px="6"
       position="fixed"
-      bg="gray.900"
+      bg={bg}
       zIndex="999"
     >
       {!isWideVersion && (
@@ -36,6 +46,7 @@ export function Header(): JSX.Element {
           onClick={onOpen}
           aria-label="Open navigation"
           mr="2"
+          color={navigationButtonColor}
         />
       )}
 
@@ -44,7 +55,7 @@ export function Header(): JSX.Element {
       {/* {isWideVersion && <SearchBox />} */}
 
       <Flex align="center" ml="auto">
-        <NotificationsNav />
+        {isWideVersion && <NotificationsNav />}
         <Profile showProfileInfo={isWideVersion} />
       </Flex>
     </Flex>

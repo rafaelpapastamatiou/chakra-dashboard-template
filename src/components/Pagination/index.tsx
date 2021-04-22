@@ -40,8 +40,8 @@ export function Pagination({
         )
       : [];
 
-  const pagesInfoColor = useColorModeValue('gray.450', 'gray.300');
-  const pagesEllipsisColor = useColorModeValue('gray.450', 'gray.300');
+  const pagesInfoColor = useColorModeValue('gray.450', 'gray.250');
+  const pagesEllipsisColor = useColorModeValue('gray.450', 'gray.250');
 
   return (
     <Stack

@@ -117,7 +117,7 @@ export function Table({
 
   const checkboxTHeadColor = useColorModeValue('gray.600', 'gray.300');
   const trStripedBackgroundColor = useColorModeValue('gray.200', 'gray.750');
-  const listItemBackgroundColor = useColorModeValue('gray.250', 'gray.750');
+  const listItemBackgroundColor = useColorModeValue('gray.200', 'gray.750');
   const headerColor = useColorModeValue('gray.600', 'gray.500');
   const columnTextColor = useColorModeValue('gray.800', 'gray.300');
 
@@ -189,7 +189,7 @@ export function Table({
                 px={['4', '8']}
                 py={['3', '6']}
                 bg={listItemBackgroundColor}
-                shadow="lg"
+                shadow="md"
                 direction="column"
                 minW={250}
                 borderRadius="8"

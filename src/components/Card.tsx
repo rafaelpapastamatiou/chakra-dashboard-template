@@ -26,8 +26,6 @@ interface CardProps extends FlexProps {
 
 const defaultSkeleton: SkeletonTextProps = {
   noOfLines: 6,
-  startColor: 'gray.500',
-  endColor: 'gray.700',
   spacing: '5',
 };
 
@@ -45,14 +43,17 @@ export function Card({
 }: CardProps): JSX.Element {
   const cardBackgroundColor = useColorModeValue('gray.100', 'gray.800');
   const dividerColor = useColorModeValue('gray.300', 'gray.900');
-  const titleColor = useColorModeValue('gray.800', 'gray.50');
+  const titleColor = useColorModeValue('gray.600', 'gray.50');
+  const skeletonStartColor = useColorModeValue('gray.200', 'gray.500');
+  const skeletonEndColor = useColorModeValue('gray.400', 'gray.700');
+
   return (
     <Flex
       bg={cardBackgroundColor}
       borderRadius="8"
-      boxShadow="md"
       direction="column"
       flex="1"
+      boxShadow="md"
       {...rest}
     >
       {cardTitle && (
@@ -97,8 +98,8 @@ export function Card({
             <Box>
               <SkeletonText
                 noOfLines={skeleton.noOfLines}
-                startColor={skeleton.startColor}
-                endColor={skeleton.endColor}
+                startColor={skeleton.startColor || skeletonStartColor}
+                endColor={skeleton.endColor || skeletonEndColor}
                 spacing={skeleton.spacing}
               />
             </Box>

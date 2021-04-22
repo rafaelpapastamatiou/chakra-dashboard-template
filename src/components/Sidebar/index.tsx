@@ -7,6 +7,7 @@ import {
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useSidebarDrawer } from '../../contexts/SidebarDrawerContext';
 import { SidebarNav } from './SidebarNav';
@@ -19,13 +20,17 @@ export function Sidebar(): JSX.Element {
     xl: false,
   });
 
+  const drawerBg = useColorModeValue('gray.50', 'gray.800');
+  const drawerHeaderColor = useColorModeValue('gray.600', 'gray.250');
+  const drawerCloseButtonColor = useColorModeValue('gray.600', 'gray.250');
+
   if (isDrawerSidebar) {
     return (
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay>
-          <DrawerContent background="gray.800" p="4">
-            <DrawerCloseButton mt="6" />
-            <DrawerHeader>Navegação</DrawerHeader>
+          <DrawerContent background={drawerBg} p="4">
+            <DrawerCloseButton mt="6" color={drawerCloseButtonColor} />
+            <DrawerHeader color={drawerHeaderColor}>Navegação</DrawerHeader>
 
             <DrawerBody>
               <SidebarNav />
